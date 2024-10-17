@@ -87,6 +87,9 @@
                 <div class="form-group">
                     <input type="text" name="phone" class="form-control" placeholder="Điện thoại" required>
                 </div>
+                <div class="form-group">
+                    <input type="text" name="img" class="form-control" placeholder="Đường dẫn hình ảnh" required>
+                </div>
                 <button type="submit" class="btn btn-primary">Lưu</button>
                 <button type="button" class="btn btn-secondary" id="cancelAdd">Hủy</button>
             </form>
@@ -128,38 +131,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body"></div>
+                <div class="modal-body">
+                    <p id="contactName"></p>
+                    <p id="contactEmail"></p>
+                    <p id="contactPhone"></p>
+                    <img id="contactImage" src="" alt="Hình ảnh liên hệ" class="img-fluid">
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal để sửa liên hệ -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Sửa liên hệ</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="Tên" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="phone" class="form-control" placeholder="Điện thoại" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -259,11 +238,10 @@
                     success: function (response) {
                         const result = JSON.parse(response);
                         if (result.status === 'success') {
-                            $('#viewModal .modal-body').html(`
-                                <p>Tên: ${result.contact.name}</p>
-                                <p>Email: ${result.contact.email}</p>
-                                <p>Điện thoại: ${result.contact.phone}</p>
-                            `);
+                            $('#contactName').text(`Tên: ${result.contact.name}`);
+                            $('#contactEmail').text(`Email: ${result.contact.email}`);
+                            $('#contactPhone').text(`Điện thoại: ${result.contact.phone}`);
+                            $('#contactImage').attr('src', result.contact.img);
                             $('#viewModal').modal('show');
                         }
                     }
@@ -288,6 +266,7 @@
                             $('#editForm input[name="name"]').val(result.contact.name);
                             $('#editForm input[name="email"]').val(result.contact.email);
                             $('#editForm input[name="phone"]').val(result.contact.phone);
+                            $('#editForm input[name="image"]').val(result.contact.image);
                             $('#editForm').data('id', result.contact.id);
                             $('#editModal').modal('show');
                         }
@@ -307,7 +286,8 @@
                         id: id,
                         name: $('#editForm input[name="name"]').val(),
                         email: $('#editForm input[name="email"]').val(),
-                        phone: $('#editForm input[name="phone"]').val()
+                        phone: $('#editForm input[name="phone"]').val(),
+                        image: $('#editForm input[name="image"]').val()
                     },
                     success: function (response) {
                         const result = JSON.parse(response);

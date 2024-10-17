@@ -6,9 +6,9 @@ class Contact {
         $this->pdo = $pdo;
     }
 
-    public function create($name, $email, $phone) {
-        $stmt = $this->pdo->prepare('INSERT INTO contacts (name, email, phone) VALUES (?, ?, ?)');
-        return $stmt->execute([$name, $email, $phone]);
+    public function create($name, $email, $phone, $img) {
+        $stmt = $this->pdo->prepare('INSERT INTO contacts (name, email, phone,img) VALUES (?, ?, ?,?)');
+        return $stmt->execute([$name, $email, $phone,$img]);
     }
 
     public function readAll() {
