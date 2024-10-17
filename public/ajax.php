@@ -53,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'];
             $email = $_POST['email'];
             $phone = $_POST['phone'];
-            $contactModel->update($id, $name, $email, $phone);
+            $img = $_POST['img'];
+            $contactModel->update($id, $name, $email, $phone,$img);
             echo json_encode(['status' => 'success']);
             break;
 
